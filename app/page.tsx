@@ -610,6 +610,12 @@ export default function Portfolio() {
                 >
                   <Phone size={24} className="text-white" />
                 </a>
+                <a
+                  href="https://app.keyhole.test/hashtag-tracking/dashboard/3gxz7K/TagEventApplied"
+                  className="bg-gradient-to-r from-cyan-600 to-cyan-700 p-4 rounded-full hover:from-cyan-700 hover:to-cyan-800 transition-all duration-300 transform hover:scale-110 shadow-lg shadow-cyan-500/25"
+                >
+                  Keyhole Dashboard
+                </a>
               </div>
             </div>
           </motion.div>
