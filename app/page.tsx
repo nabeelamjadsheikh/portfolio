@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useScroll, useSpring, useInView } from 'framer-motion';
 import { 
   Code, 
   Download, 
@@ -116,6 +116,119 @@ const projects = [
   }
 ];
 
+// Animation variants
+const fadeInUp = {
+  initial: { opacity: 0, y: 60 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
+
+const fadeInLeft = {
+  initial: { opacity: 0, x: -60 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
+
+const fadeInRight = {
+  initial: { opacity: 0, x: 60 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const scaleOnHover = {
+  whileHover: { 
+    scale: 1.05,
+    transition: { duration: 0.2 }
+  },
+  whileTap: { scale: 0.95 }
+};
+
+const floatingAnimation = {
+  animate: {
+    y: [0, -10, 0],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
+};
+
+// CV Download function
+const downloadCV = () => {
+  // Create a mock CV content (in a real app, you'd have an actual PDF file)
+  const cvContent = `
+NABEEL AMJAD
+Senior Full Stack Engineer
+
+CONTACT INFORMATION
+Email: nabeel.dev.eng@gmail.com
+Phone: +923558374017
+Location: Lahore, Pakistan
+LinkedIn: https://www.linkedin.com/in/nabeelamjaddev/
+
+PROFESSIONAL SUMMARY
+Senior full-stack engineer with 6+ years of experience in architecting and developing enterprise-scale web applications. Specialized in MERN stack with a proven track record of leading teams and delivering high-performance solutions that drive business growth and enhance user experiences across multiple industries.
+
+EXPERIENCE
+
+Senior Full Stack Engineer | EDGE (Remote) | Dec 2021 - Present
+• Led cross-functional teams delivering enterprise-scale applications serving 100K+ users
+• Architected microservices infrastructure with Node.js, reducing system latency by 60%
+• Implemented advanced CI/CD pipelines with automated testing, achieving 99.9% uptime
+• Mentored junior developers and established coding standards across development teams
+• Integrated complex third-party APIs including Stripe, Twilio, and Google Maps
+• Optimized database performance with advanced indexing, improving query speeds by 3x
+
+Senior Software Engineer | PwC (Remote) | Apr 2020 - Oct 2021
+• Led development of core platform features used by Fortune 500 companies
+• Implemented advanced performance optimizations reducing load times by 50%
+• Collaborated with product teams to deliver solutions aligned with business objectives
+• Established automated testing frameworks improving code quality and reliability
+• Mentored team members on best practices and modern development methodologies
+
+Software Engineer | innRoad (Remote) | Sep 2018 - Sept 2020
+• Developed scalable web applications serving thousands of concurrent users
+• Built efficient data processing systems with automated workflows
+• Created robust database architectures for high-performance data management
+• Implemented RESTful APIs with comprehensive documentation and testing
+• Delivered projects on time while maintaining high code quality standards
+
+TECHNICAL SKILLS
+• Frontend: JavaScript (ES6+), TypeScript, React.js, Next.js
+• Backend: Node.js, Express.js, NestJS
+• Databases: MongoDB, PostgreSQL, MySQL
+• Cloud & DevOps: AWS, Docker
+• Other: GraphQL, RESTful APIs, CI/CD
+
+FEATURED PROJECTS
+• 3 Lane Marketing - Premium marketing agency website with 95+ PageSpeed score
+• Keyhole - Social media insights platform processing millions of data points
+• Talkspresso - AI-powered booking platform with real-time service generation
+
+EDUCATION
+Computer Science Graduate
+  `;
+
+  const blob = new Blob([cvContent], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'Nabeel_Amjad_CV.txt';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+};
+
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -180,33 +293,54 @@ export default function Portfolio() {
       />
 
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 ${isDarkMode ? 'bg-black/20' : 'bg-white/20'} backdrop-blur-xl ${isDarkMode ? 'border-white/10' : 'border-gray-200/20'} border-b z-40`}>
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className={`fixed top-0 left-0 right-0 ${isDarkMode ? 'bg-black/20' : 'bg-white/20'} backdrop-blur-xl ${isDarkMode ? 'border-white/10' : 'border-gray-200/20'} border-b z-40`}
+      >
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
               className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
             >
               Nabeel Amjad
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {['About', 'Experience', 'Skills', 'Projects', 'Contact'].map((item) => (
-                <button
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="hidden md:flex items-center space-x-8"
+            >
+              {['About', 'Experience', 'Skills', 'Projects', 'Contact'].map((item, index) => (
+                <motion.button
                   key={item}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 + index * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToSection(item.toLowerCase())}
                   className={`transition-colors hover:text-emerald-400 ${
                     activeSection === item.toLowerCase() ? 'text-emerald-400' : textClasses
                   }`}
                 >
                   {item}
-                </button>
+                </motion.button>
               ))}
               
               {/* Theme Toggle */}
-              <button
+              <motion.button
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.8 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={toggleTheme}
                 className={`p-2 rounded-full transition-all duration-300 ${
                   isDarkMode 
@@ -215,17 +349,27 @@ export default function Portfolio() {
                 }`}
               >
                 {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
+              </motion.button>
 
-              <button className="bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 py-2 rounded-full hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/25 text-white">
+              <motion.button 
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.9 }}
+                whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(16, 185, 129, 0.3)" }}
+                whileTap={{ scale: 0.95 }}
+                onClick={downloadCV}
+                className="bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 py-2 rounded-full hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/25 text-white"
+              >
                 <Download size={16} />
                 Download CV
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center gap-3">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={toggleTheme}
                 className={`p-2 rounded-full transition-all duration-300 ${
                   isDarkMode 
@@ -234,12 +378,14 @@ export default function Portfolio() {
                 }`}
               >
                 {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
+              </motion.button>
             </div>
           </div>
 
@@ -248,32 +394,49 @@ export default function Portfolio() {
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
               className="md:hidden mt-4 pb-4 space-y-4"
             >
-              {['About', 'Experience', 'Skills', 'Projects', 'Contact'].map((item) => (
-                <button
+              {['About', 'Experience', 'Skills', 'Projects', 'Contact'].map((item, index) => (
+                <motion.button
                   key={item}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
                   onClick={() => scrollToSection(item.toLowerCase())}
                   className="block w-full text-left py-2 hover:text-emerald-400 transition-colors"
                 >
                   {item}
-                </button>
+                </motion.button>
               ))}
-              <button className="bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 py-2 rounded-full w-full flex items-center justify-center gap-2 text-white">
+              <motion.button 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 }}
+                onClick={downloadCV}
+                className="bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 py-2 rounded-full w-full flex items-center justify-center gap-2 text-white"
+              >
                 <Download size={16} />
                 Download CV
-              </button>
+              </motion.button>
             </motion.div>
           )}
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Hero Section */}
       <section id="hero" className="min-h-screen flex flex-col items-center justify-center px-6 pt-20 relative overflow-hidden">
         {/* Background Animation */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <motion.div 
+            {...floatingAnimation}
+            className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl"
+          />
+          <motion.div 
+            {...floatingAnimation}
+            transition={{ delay: 1, duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"
+          />
         </div>
 
         <div className="max-w-7xl mx-auto text-center relative z-10 flex-1 flex flex-col justify-center">
@@ -282,62 +445,105 @@ export default function Portfolio() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="mb-6 flex justify-center">
-              <div className="p-4 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-2xl backdrop-blur-sm border border-emerald-500/20">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="mb-6 flex justify-center"
+            >
+              <motion.div 
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+                className="p-4 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-2xl backdrop-blur-sm border border-emerald-500/20"
+              >
                 <Terminal className="w-12 h-12 text-emerald-400" />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-5xl md:text-7xl font-bold mb-6"
+            >
               <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
                 Nabeel Amjad
               </span>
-            </h1>
+            </motion.h1>
             
-            <h2 className={`text-2xl md:text-3xl font-light mb-4 ${textClasses}`}>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className={`text-2xl md:text-3xl font-light mb-4 ${textClasses}`}
+            >
               Senior Full Stack Engineer
-            </h2>
+            </motion.h2>
             
-            <div className="flex items-center justify-center gap-2 mb-8">
-              <div className="flex items-center gap-1 text-emerald-400">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="flex items-center justify-center gap-2 mb-8"
+            >
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-1 text-emerald-400"
+              >
                 <Layers className="w-4 h-4" />
                 <span className="text-sm font-medium">6+ Years Experience</span>
-              </div>
+              </motion.div>
               <span className={`${textClasses} opacity-50`}>•</span>
-              <div className="flex items-center gap-1 text-cyan-400">
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-1 text-cyan-400"
+              >
                 <Code className="w-4 h-4" />
                 <span className="text-sm font-medium">Senior MERN Expert</span>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
             
-            <p className={`text-lg md:text-xl ${textClasses} mb-12 max-w-4xl mx-auto leading-relaxed`}>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1, duration: 0.8 }}
+              className={`text-lg md:text-xl ${textClasses} mb-12 max-w-4xl mx-auto leading-relaxed`}
+            >
               Senior full-stack engineer with extensive expertise in architecting and developing enterprise-scale web applications. 
               Specialized in MERN stack with a proven track record of leading teams and delivering high-performance solutions 
               that drive business growth and enhance user experiences across multiple industries.
-            </p>
+            </motion.p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <button
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+            >
+              <motion.button
+                {...scaleOnHover}
                 onClick={() => scrollToSection('projects')}
-                className="bg-gradient-to-r from-emerald-500 to-cyan-500 px-8 py-4 rounded-full text-lg font-semibold hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-emerald-500/25 text-white"
+                className="bg-gradient-to-r from-emerald-500 to-cyan-500 px-8 py-4 rounded-full text-lg font-semibold hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg shadow-emerald-500/25 text-white"
               >
                 View My Work
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                {...scaleOnHover}
                 onClick={() => scrollToSection('contact')}
                 className={`border border-emerald-400 px-8 py-4 rounded-full text-lg font-semibold hover:bg-emerald-400/10 transition-all duration-300 backdrop-blur-sm ${headingClasses}`}
               >
                 Get In Touch
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           </motion.div>
         </div>
         
-        {/* Arrow Down Button - Positioned below the buttons */}
+        {/* Arrow Down Button */}
         <motion.button
           onClick={() => scrollToSection('about')}
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
+          whileHover={{ scale: 1.1 }}
           className="cursor-pointer hover:text-emerald-400 transition-colors mb-8"
         >
           <ChevronDown size={32} className={textClasses} />
@@ -348,17 +554,27 @@ export default function Portfolio() {
       <section id="about" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            {...fadeInUp}
             viewport={{ once: true }}
+            whileInView="animate"
+            initial="initial"
           >
-            <h2 className={`text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent`}>
+            <motion.h2 
+              {...fadeInUp}
+              className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+            >
               About Me
-            </h2>
-            <div className={`${cardClasses} rounded-2xl p-8 border shadow-2xl`}>
+            </motion.h2>
+            <motion.div 
+              {...fadeInUp}
+              transition={{ delay: 0.2 }}
+              className={`${cardClasses} rounded-2xl p-8 border shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500`}
+            >
               <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div>
+                <motion.div
+                  {...fadeInLeft}
+                  transition={{ delay: 0.4 }}
+                >
                   <p className={`text-lg ${textClasses} leading-relaxed mb-6`}>
                     As a Senior Full Stack Engineer with 6+ years of experience, I have a proven history of architecting, 
                     developing, and deploying enterprise-scale web applications. I excel in leading development teams, 
@@ -369,23 +585,32 @@ export default function Portfolio() {
                     technical leadership to deliver high-quality solutions. Committed to staying ahead in the tech landscape, 
                     I am dedicated to creating impactful user experiences and scalable architectures.
                   </p>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 p-3 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
-                    <Award className="w-6 h-6 text-emerald-400" />
-                    <span className={textClasses}>6+ Years Senior Experience</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
-                    <Building className="w-6 h-6 text-cyan-400" />
-                    <span className={textClasses}>Enterprise & Startup Leader</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                    <GraduationCap className="w-6 h-6 text-blue-400" />
-                    <span className={textClasses}>Computer Science Graduate</span>
-                  </div>
-                </div>
+                </motion.div>
+                <motion.div 
+                  {...fadeInRight}
+                  transition={{ delay: 0.6 }}
+                  className="space-y-4"
+                >
+                  {[
+                    { icon: Award, text: "6+ Years Senior Experience", color: "emerald" },
+                    { icon: Building, text: "Enterprise & Startup Leader", color: "cyan" },
+                    { icon: GraduationCap, text: "Computer Science Graduate", color: "blue" }
+                  ].map((item, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.8 + index * 0.1 }}
+                      whileHover={{ scale: 1.02, x: 5 }}
+                      className={`flex items-center gap-3 p-3 bg-${item.color}-500/10 rounded-lg border border-${item.color}-500/20 cursor-pointer`}
+                    >
+                      <item.icon className={`w-6 h-6 text-${item.color}-400`} />
+                      <span className={textClasses}>{item.text}</span>
+                    </motion.div>
+                  ))}
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -394,30 +619,39 @@ export default function Portfolio() {
       <section id="experience" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            {...fadeInUp}
+            whileInView="animate"
+            initial="initial"
             viewport={{ once: true }}
             className="text-4xl font-bold mb-16 text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
           >
             Professional Experience
           </motion.h2>
           
-          <div className="space-y-8">
+          <motion.div 
+            variants={staggerContainer}
+            whileInView="animate"
+            initial="initial"
+            viewport={{ once: true }}
+            className="space-y-8"
+          >
             {experiences.map((exp, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className={`${cardClasses} rounded-2xl p-8 border hover:border-emerald-400/30 transition-all duration-300 shadow-xl`}
+                variants={fadeInUp}
+                transition={{ delay: index * 0.2 }}
+                whileHover={{ scale: 1.02, y: -5 }}
+                className={`${cardClasses} rounded-2xl p-8 border hover:border-emerald-400/30 transition-all duration-300 shadow-xl hover:shadow-emerald-500/10`}
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl">
+                    <motion.div 
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.6 }}
+                      className="p-3 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl"
+                    >
                       {exp.icon}
-                    </div>
+                    </motion.div>
                     <div>
                       <h3 className="text-2xl font-bold text-emerald-400 mb-2">{exp.title}</h3>
                       <div className={`flex items-center ${textClasses} mb-2`}>
@@ -426,25 +660,36 @@ export default function Portfolio() {
                       </div>
                     </div>
                   </div>
-                  <div className={`flex items-center ${textClasses} ${isDarkMode ? 'bg-gray-800/50' : 'bg-gray-100/80'} px-4 py-2 rounded-full`}>
+                  <motion.div 
+                    whileHover={{ scale: 1.05 }}
+                    className={`flex items-center ${textClasses} ${isDarkMode ? 'bg-gray-800/50' : 'bg-gray-100/80'} px-4 py-2 rounded-full`}
+                  >
                     <Calendar size={16} className="mr-2" />
                     {exp.period}
-                  </div>
+                  </motion.div>
                 </div>
                 
                 <p className={`${textClasses} mb-6 italic`}>{exp.description}</p>
                 
-                <ul className="space-y-3">
+                <motion.ul 
+                  variants={staggerContainer}
+                  className="space-y-3"
+                >
                   {exp.achievements.map((achievement, i) => (
-                    <li key={i} className={`flex items-start ${textClasses}`}>
+                    <motion.li 
+                      key={i}
+                      variants={fadeInLeft}
+                      whileHover={{ x: 5 }}
+                      className={`flex items-start ${textClasses}`}
+                    >
                       <span className="text-emerald-400 mr-3 mt-1 text-lg">▸</span>
                       {achievement}
-                    </li>
+                    </motion.li>
                   ))}
-                </ul>
+                </motion.ul>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -452,44 +697,61 @@ export default function Portfolio() {
       <section id="skills" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            {...fadeInUp}
+            whileInView="animate"
+            initial="initial"
             viewport={{ once: true }}
             className="text-4xl font-bold mb-16 text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
           >
             Skills & Technologies
           </motion.h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div 
+            variants={staggerContainer}
+            whileInView="animate"
+            initial="initial"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {skills.map((skill, index) => (
               <motion.div
                 key={skill.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`${cardClasses} rounded-xl p-6 border hover:border-emerald-400/30 transition-all duration-300 group`}
+                variants={fadeInUp}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className={`${cardClasses} rounded-xl p-6 border hover:border-emerald-400/30 transition-all duration-300 group cursor-pointer`}
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl">{skill.icon}</span>
+                    <motion.span 
+                      whileHover={{ scale: 1.2, rotate: 360 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-2xl"
+                    >
+                      {skill.icon}
+                    </motion.span>
                     <span className={`text-lg font-semibold ${headingClasses}`}>{skill.name}</span>
                   </div>
-                  <span className="text-emerald-400 font-bold">{skill.level}%</span>
+                  <motion.span 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="text-emerald-400 font-bold"
+                  >
+                    {skill.level}%
+                  </motion.span>
                 </div>
                 <div className={`w-full ${isDarkMode ? 'bg-gray-700/50' : 'bg-gray-200'} rounded-full h-3 overflow-hidden`}>
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${skill.level}%` }}
-                    transition={{ duration: 1.5, delay: index * 0.1 }}
+                    transition={{ duration: 1.5, delay: index * 0.1, ease: "easeOut" }}
                     viewport={{ once: true }}
                     className="bg-gradient-to-r from-emerald-500 to-cyan-500 h-3 rounded-full shadow-lg shadow-emerald-500/50"
                   />
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -497,46 +759,61 @@ export default function Portfolio() {
       <section id="projects" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            {...fadeInUp}
+            whileInView="animate"
+            initial="initial"
             viewport={{ once: true }}
             className="text-4xl font-bold mb-16 text-center bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
           >
             Featured Projects
           </motion.h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div 
+            variants={staggerContainer}
+            whileInView="animate"
+            initial="initial"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
             {projects.map((project, index) => (
               <motion.div
                 key={project.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className={`${cardClasses} rounded-2xl p-6 border hover:border-emerald-400/30 transition-all duration-300 group hover:transform hover:scale-105 shadow-xl`}
+                variants={fadeInUp}
+                whileHover={{ scale: 1.05, y: -10 }}
+                className={`${cardClasses} rounded-2xl p-6 border hover:border-emerald-400/30 transition-all duration-300 group shadow-xl hover:shadow-emerald-500/10 cursor-pointer`}
               >
                 <div className="flex items-center justify-between mb-6">
-                  <div className="p-3 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl">
+                  <motion.div 
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.6 }}
+                    className="p-3 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-xl"
+                  >
                     {project.icon}
-                  </div>
-                  <a
+                  </motion.div>
+                  <motion.a
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                     className={`${textClasses} hover:text-emerald-400 transition-colors p-2 hover:bg-emerald-400/10 rounded-lg`}
                   >
                     <ExternalLink size={20} />
-                  </a>
+                  </motion.a>
                 </div>
                 
                 <h3 className="text-xl font-bold text-emerald-400 mb-3">{project.title}</h3>
                 <p className={`${textClasses} mb-4 text-sm leading-relaxed`}>{project.description}</p>
                 
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech) => (
-                    <span
+                <motion.div 
+                  variants={staggerContainer}
+                  className="flex flex-wrap gap-2 mb-4"
+                >
+                  {project.tech.map((tech, techIndex) => (
+                    <motion.span
                       key={tech}
+                      variants={fadeInUp}
+                      whileHover={{ scale: 1.05 }}
                       className={`px-3 py-1 rounded-full text-xs font-medium border ${
                         isDarkMode 
                           ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
@@ -544,14 +821,14 @@ export default function Portfolio() {
                       }`}
                     >
                       {tech}
-                    </span>
+                    </motion.span>
                   ))}
-                </div>
+                </motion.div>
                 
                 <p className={`text-xs ${textClasses} italic`}>{project.achievement}</p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -559,71 +836,102 @@ export default function Portfolio() {
       <section id="contact" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            {...fadeInUp}
+            whileInView="animate"
+            initial="initial"
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-4xl font-bold mb-12 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+            <motion.h2 
+              {...fadeInUp}
+              className="text-4xl font-bold mb-12 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+            >
               Let's Work Together
-            </h2>
+            </motion.h2>
             
-            <div className={`${cardClasses} rounded-2xl p-8 border shadow-2xl`}>
+            <motion.div 
+              {...fadeInUp}
+              transition={{ delay: 0.2 }}
+              className={`${cardClasses} rounded-2xl p-8 border shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500`}
+            >
               <p className={`text-lg ${textClasses} mb-8`}>
                 Ready to bring your next project to life? Let's discuss how we can create something amazing together.
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className={`flex items-center justify-center space-x-3 ${textClasses} p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20`}>
-                  <Phone size={20} className="text-emerald-400" />
-                  <span>+923558374017</span>
-                </div>
-                <div className={`flex items-center justify-center space-x-3 ${textClasses} p-4 bg-cyan-500/10 rounded-xl border border-cyan-500/20`}>
-                  <Mail size={20} className="text-cyan-400" />
-                  <span>nabeel.dev.eng@gmail.com</span>
-                </div>
-                <div className={`flex items-center justify-center space-x-3 ${textClasses} p-4 bg-blue-500/10 rounded-xl border border-blue-500/20`}>
-                  <MapPin size={20} className="text-blue-400" />
-                  <span>Lahore, Pakistan</span>
-                </div>
-              </div>
+              <motion.div 
+                variants={staggerContainer}
+                whileInView="animate"
+                initial="initial"
+                viewport={{ once: true }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+              >
+                {[
+                  { icon: Phone, text: "+923558374017", color: "emerald", href: "tel:+923558374017" },
+                  { icon: Mail, text: "nabeel.dev.eng@gmail.com", color: "cyan", href: "mailto:nabeel.dev.eng@gmail.com" },
+                  { icon: MapPin, text: "Lahore, Pakistan", color: "blue", href: "#" }
+                ].map((contact, index) => (
+                  <motion.a
+                    key={index}
+                    href={contact.href}
+                    variants={fadeInUp}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    className={`flex items-center justify-center space-x-3 ${textClasses} p-4 bg-${contact.color}-500/10 rounded-xl border border-${contact.color}-500/20 hover:bg-${contact.color}-500/20 transition-all duration-300 cursor-pointer`}
+                  >
+                    <contact.icon size={20} className={`text-${contact.color}-400`} />
+                    <span>{contact.text}</span>
+                  </motion.a>
+                ))}
+              </motion.div>
               
-              <div className="flex justify-center space-x-6">
-                <a
-                  href="https://www.linkedin.com/in/nabeelamjaddev/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-full hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-110 shadow-lg shadow-blue-500/25"
-                >
-                  <Linkedin size={24} className="text-white" />
-                </a>
-                <a
-                  href="mailto:nabeel.dev.eng@gmail.com"
-                  className="bg-gradient-to-r from-emerald-600 to-emerald-700 p-4 rounded-full hover:from-emerald-700 hover:to-emerald-800 transition-all duration-300 transform hover:scale-110 shadow-lg shadow-emerald-500/25"
-                >
-                  <Mail size={24} className="text-white" />
-                </a>
-                <a
-                  href="tel:+923558374017"
-                  className="bg-gradient-to-r from-cyan-600 to-cyan-700 p-4 rounded-full hover:from-cyan-700 hover:to-cyan-800 transition-all duration-300 transform hover:scale-110 shadow-lg shadow-cyan-500/25"
-                >
-                  <Phone size={24} className="text-white" />
-                </a>
-              </div>
-            </div>
+              <motion.div 
+                variants={staggerContainer}
+                whileInView="animate"
+                initial="initial"
+                viewport={{ once: true }}
+                className="flex justify-center space-x-6"
+              >
+                {[
+                  { icon: Linkedin, href: "https://www.linkedin.com/in/nabeelamjaddev/", color: "from-blue-600 to-blue-700", hoverColor: "hover:from-blue-700 hover:to-blue-800" },
+                  { icon: Mail, href: "mailto:nabeel.dev.eng@gmail.com", color: "from-emerald-600 to-emerald-700", hoverColor: "hover:from-emerald-700 hover:to-emerald-800" },
+                  { icon: Phone, href: "tel:+923558374017", color: "from-cyan-600 to-cyan-700", hoverColor: "hover:from-cyan-700 hover:to-cyan-800" }
+                ].map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href={social.href}
+                    target={social.href.startsWith('http') ? "_blank" : undefined}
+                    rel={social.href.startsWith('http') ? "noopener noreferrer" : undefined}
+                    variants={fadeInUp}
+                    whileHover={{ scale: 1.1, y: -5 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`bg-gradient-to-r ${social.color} p-4 rounded-full ${social.hoverColor} transition-all duration-300 shadow-lg`}
+                  >
+                    <social.icon size={24} className="text-white" />
+                  </motion.a>
+                ))}
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`${isDarkMode ? 'bg-black/20 border-white/10' : 'bg-gray-100/50 border-gray-200/50'} border-t py-8 px-6`}>
+      <motion.footer 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className={`${isDarkMode ? 'bg-black/20 border-white/10' : 'bg-gray-100/50 border-gray-200/50'} border-t py-8 px-6`}
+      >
         <div className="max-w-7xl mx-auto text-center">
-          <p className={textClasses}>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className={textClasses}
+          >
             © 2025 Nabeel Amjad. All rights reserved.
-          </p>
+          </motion.p>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   );
 }
