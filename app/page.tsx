@@ -219,7 +219,7 @@ export default function Portfolio() {
 
   const downloadCV = () => {
     const link = document.createElement('a');
-    link.href = '/nabeel-full-stack.pdf'; 
+    link.href = '/nabeel-full-stack-cv.pdf'; 
     link.download = 'Nabeel_Amjad_CV.pdf';
     document.body.appendChild(link);
     link.click();
