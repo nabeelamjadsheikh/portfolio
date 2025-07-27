@@ -46,16 +46,16 @@ const skills = [
 const experiences = [
   {
     title: 'Senior Full Stack Engineer',
-    company: 'EDGE (Remote)',
+    company: 'Keyhole (Remote)',
     period: 'Dec 2021 - Present',
-    description: 'Edge is a matchmaking platform for high-performance global talent.',
+    description: 'Keyhole is a matchmaking platform for high-performance global talent.',
     achievements: [
-      'Led cross-functional teams delivering enterprise-scale applications serving 100K+ users',
-      'Architected microservices infrastructure with Node.js, reducing system latency by 60%',
-      'Implemented advanced CI/CD pipelines with automated testing, achieving 99.9% uptime',
-      'Mentored junior developers and established coding standards across development teams',
-      'Integrated complex third-party APIs including Stripe, Twilio, and Google Maps',
-      'Optimized database performance with advanced indexing, improving query speeds by 3x'
+      'Lead development of the social media analytics platform, powering real‑time insights across Instagram, Twitter/X, Facebook, TikTok, YouTube, blogs, and forums.',
+      'Designed backend services and dashboards using CakePHP for robust content, tracker and campaign management systems.',
+      'Developed microservices and RESTful APIs in Node.js—leveraging Express.js and NestJS frameworks—to aggregate, filter, and serve live metadata.',
+      'Front‑end driven by React, delivering interactive charts (reach, engagement, sentiment, share‑of‑voice), post streams, and media walls.',
+      'Actively participating in client meetings to understand requirements and provide technical insights, strengthening client relationships.',
+      'Coordinated inter‑service communication via Node.js services and CakePHP modules (e.g. real‑time event flows using web sockets or server push logic).'
     ],
     icon: <Zap className="w-6 h-6" />
   },
@@ -162,73 +162,6 @@ const floatingAnimation = {
   }
 };
 
-// CV Download function
-const downloadCV = () => {
-  // Create a mock CV content (in a real app, you'd have an actual PDF file)
-  const cvContent = `
-NABEEL AMJAD
-Senior Full Stack Engineer
-
-CONTACT INFORMATION
-Email: nabeel.dev.eng@gmail.com
-Phone: +923558374017
-Location: Lahore, Pakistan
-LinkedIn: https://www.linkedin.com/in/nabeelamjaddev/
-
-PROFESSIONAL SUMMARY
-Senior full-stack engineer with 6+ years of experience in architecting and developing enterprise-scale web applications. Specialized in MERN stack with a proven track record of leading teams and delivering high-performance solutions that drive business growth and enhance user experiences across multiple industries.
-
-EXPERIENCE
-
-Senior Full Stack Engineer | EDGE (Remote) | Dec 2021 - Present
-• Led cross-functional teams delivering enterprise-scale applications serving 100K+ users
-• Architected microservices infrastructure with Node.js, reducing system latency by 60%
-• Implemented advanced CI/CD pipelines with automated testing, achieving 99.9% uptime
-• Mentored junior developers and established coding standards across development teams
-• Integrated complex third-party APIs including Stripe, Twilio, and Google Maps
-• Optimized database performance with advanced indexing, improving query speeds by 3x
-
-Senior Software Engineer | PwC (Remote) | Apr 2020 - Oct 2021
-• Led development of core platform features used by Fortune 500 companies
-• Implemented advanced performance optimizations reducing load times by 50%
-• Collaborated with product teams to deliver solutions aligned with business objectives
-• Established automated testing frameworks improving code quality and reliability
-• Mentored team members on best practices and modern development methodologies
-
-Software Engineer | innRoad (Remote) | Sep 2018 - Sept 2020
-• Developed scalable web applications serving thousands of concurrent users
-• Built efficient data processing systems with automated workflows
-• Created robust database architectures for high-performance data management
-• Implemented RESTful APIs with comprehensive documentation and testing
-• Delivered projects on time while maintaining high code quality standards
-
-TECHNICAL SKILLS
-• Frontend: JavaScript (ES6+), TypeScript, React.js, Next.js
-• Backend: Node.js, Express.js, NestJS
-• Databases: MongoDB, PostgreSQL, MySQL
-• Cloud & DevOps: AWS, Docker
-• Other: GraphQL, RESTful APIs, CI/CD
-
-FEATURED PROJECTS
-• 3 Lane Marketing - Premium marketing agency website with 95+ PageSpeed score
-• Keyhole - Social media insights platform processing millions of data points
-• Talkspresso - AI-powered booking platform with real-time service generation
-
-EDUCATION
-Computer Science Graduate
-  `;
-
-  const blob = new Blob([cvContent], { type: 'text/plain' });
-  const url = window.URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'Nabeel_Amjad_CV.txt';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  window.URL.revokeObjectURL(url);
-};
-
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -284,6 +217,14 @@ export default function Portfolio() {
   const textClasses = isDarkMode ? 'text-gray-300' : 'text-gray-600';
   const headingClasses = isDarkMode ? 'text-white' : 'text-gray-900';
 
+  const downloadCV = () => {
+    const link = document.createElement('a');
+    link.href = '/nabeel-full-stack.pdf'; 
+    link.download = 'Nabeel_Amjad_CV.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <div className={`min-h-screen transition-all duration-500 ${themeClasses}`}>
       {/* Progress Bar */}
@@ -307,7 +248,7 @@ export default function Portfolio() {
               transition={{ delay: 0.2 }}
               className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
             >
-              Nabeel Amjad
+              Nabeel Ahmad
             </motion.div>
 
             {/* Desktop Navigation */}
@@ -467,7 +408,7 @@ export default function Portfolio() {
               className="text-5xl md:text-7xl font-bold mb-6"
             >
               <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                Nabeel Amjad
+                Nabeel Ahmad
               </span>
             </motion.h1>
             
@@ -928,7 +869,7 @@ export default function Portfolio() {
             viewport={{ once: true }}
             className={textClasses}
           >
-            © 2025 Nabeel Amjad. All rights reserved.
+            © 2025 Nabeel Ahmad. All rights reserved.
           </motion.p>
         </div>
       </motion.footer>
