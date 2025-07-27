@@ -5,8 +5,7 @@ import { motion, useScroll, useSpring, useInView } from 'framer-motion';
 import { 
   Code, 
   Download, 
-  ExternalLink, 
-  Github, 
+  ExternalLink,
   Linkedin, 
   Mail, 
   Phone, 
