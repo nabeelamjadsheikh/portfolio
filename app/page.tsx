@@ -44,10 +44,10 @@ const skills = [
 
 const experiences = [
   {
-    title: 'Senior Full Stack Engineer',
-    company: 'Keyhole (Remote)',
-    period: 'Dec 2021 - Present',
-    description: 'Keyhole is a matchmaking platform for high-performance global talent.',
+    title: 'Technical Team Lead',
+    company: 'InvoZone',
+    period: 'Oct 2021 - Present',
+    description: 'InvoZone is a matchmaking platform for high-performance global talent.',
     achievements: [
       'Lead development of the social media analytics platform, powering real‑time insights across Instagram, Twitter/X, Facebook, TikTok, YouTube, blogs, and forums.',
       'Designed backend services and dashboards using CakePHP for robust content, tracker and campaign management systems.',
@@ -60,9 +60,9 @@ const experiences = [
   },
   {
     title: 'Senior Software Engineer',
-    company: 'PwC (Remote)',
-    period: 'Apr 2020 - Oct 2021',
-    description: 'PwC is a robust Hiring solution, enhancing enterprise experiences',
+    company: 'Petsaal Technology',
+    period: 'Sept 2020 - Oct 2021',
+    description: 'Petsaal is a robust Hiring solution, enhancing enterprise experiences',
     achievements: [
       'Led development of core platform features used by Fortune 500 companies',
       'Implemented advanced performance optimizations reducing load times by 50%',
@@ -74,8 +74,8 @@ const experiences = [
   },
   {
     title: 'Software Engineer',
-    company: 'innRoad (Remote)',
-    period: 'Sep 2018 - Sept 2020',
+    company: 'Bloomrix',
+    period: 'Sep 2019 - Sept 2020',
     description: 'Technology & Digital solutions provider connecting businesses with software development expertise',
     achievements: [
       'Developed scalable web applications serving thousands of concurrent users',
@@ -90,10 +90,10 @@ const experiences = [
 
 const projects = [
   {
-    title: '3 Lane Marketing',
-    url: 'https://www.3lanemarketing.com/',
-    description: 'A premium marketing agency excelling in branding, strategy, design, and tech expertise.',
-    tech: ['Next.js', 'WordPress', 'Apollo Client', 'GraphQL'],
+    title: 'Hulul (Saudia Government)',
+    url: 'https://hulul.askco.sa/',
+    description: 'Developed an event management system for the Saudi government, enabling seamless event planning and registration. Built the frontend with Next.js for a fast, responsive interface and the backend with NestJS microservices containerized using Docker. Deployed the platform on Google Cloud Platform (GCP) for scalability, security, and high availability.',
+    tech: ['Next.js', 'NestJS', 'Postgres', 'Microservices', 'Docker', 'Google Cloud', 'Firebase'],
     achievement: 'Achieved 95+ PageSpeed score by integrating Next.js with headless WordPress',
     icon: <Globe className="w-8 h-8" />
   },
