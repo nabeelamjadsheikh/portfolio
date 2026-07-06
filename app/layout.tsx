@@ -1,27 +1,31 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter, Fraunces, JetBrains_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { SmoothScroll } from '@/components/providers/smooth-scroll';
 import { profile } from '@/lib/content';
 
-const inter = Inter({
-  subsets: ['latin'],
+// Self-hosted variable fonts (latin). Loaded locally so the production build
+// never has to reach Google Fonts — avoids the Vercel build-time fetch timeout.
+const inter = localFont({
+  src: './fonts/inter.woff2',
   variable: '--font-inter',
   display: 'swap',
+  weight: '100 900',
 });
 
-const fraunces = Fraunces({
-  subsets: ['latin'],
+const fraunces = localFont({
+  src: './fonts/fraunces.woff2',
   variable: '--font-fraunces',
   display: 'swap',
-  axes: ['opsz'],
+  weight: '100 900',
 });
 
-const mono = JetBrains_Mono({
-  subsets: ['latin'],
+const mono = localFont({
+  src: './fonts/jetbrains-mono.woff2',
   variable: '--font-mono-face',
   display: 'swap',
+  weight: '100 800',
 });
 
 const url = 'https://nabeel-ahmad.dev';
