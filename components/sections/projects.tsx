@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { projects, type Project } from '@/lib/content';
 import { Section } from '@/components/sections/section';
-import { Tilt } from '@/components/fx/tilt';
 import { fadeUp, inView, stagger } from '@/lib/motion';
 
 function ProjectVisual({ project, index }: { project: Project; index: number }) {
@@ -18,10 +17,7 @@ function ProjectVisual({ project, index }: { project: Project; index: number }) 
         className="absolute -inset-6 -z-10 rounded-[2rem] opacity-60 blur-3xl"
         style={{ background: `radial-gradient(60% 60% at 30% 20%, ${a}, transparent 70%), radial-gradient(60% 60% at 80% 90%, ${b}, transparent 70%)` }}
       />
-      <Tilt
-        max={5}
-        className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[var(--border-strong)] glass-strong shadow-[var(--shadow-soft)]"
-      >
+      <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[var(--border-strong)] glass-strong shadow-[var(--shadow-soft)]">
         {/* window chrome */}
         <div className="relative z-10 flex h-9 items-center gap-2 border-b border-[var(--border)] px-4">
           <span className="flex gap-1.5">
@@ -45,10 +41,10 @@ function ProjectVisual({ project, index }: { project: Project; index: number }) 
             alt={`${project.name} — product screenshot`}
             loading="lazy"
             decoding="async"
-            className="absolute left-0 top-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="absolute left-0 top-0 h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
           />
         </div>
-      </Tilt>
+      </div>
     </div>
   );
 }

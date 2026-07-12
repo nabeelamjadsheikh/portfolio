@@ -1,9 +1,5 @@
-'use client';
-
-// Ambient aurora: three large, blurred colour fields that drift slowly. Sits in
-// a fixed layer behind all content. Colours come from theme tokens so it adapts
-// to light/dark. Drift animation is paused automatically under reduced motion
-// (see globals.css) — the blobs simply stay put.
+// Static ambient glow — two soft colour fields, no animation. Fixed behind all
+// content. Colours come from theme tokens so it adapts to light/dark.
 export function AuroraBackground() {
   return (
     <div
@@ -12,25 +8,12 @@ export function AuroraBackground() {
       style={{ opacity: 'var(--aurora-opacity)' }}
     >
       <div
-        className="absolute left-[8%] top-[-12%] h-[52vmax] w-[52vmax] rounded-full blur-[110px]"
-        style={{
-          background: 'radial-gradient(circle at center, var(--glow-1), transparent 62%)',
-          animation: 'aurora-drift 22s ease-in-out infinite',
-        }}
+        className="absolute left-[6%] top-[-14%] h-[46vmax] w-[46vmax] rounded-full blur-[110px]"
+        style={{ background: 'radial-gradient(circle at center, var(--glow-1), transparent 62%)' }}
       />
       <div
-        className="absolute right-[-10%] top-[18%] h-[46vmax] w-[46vmax] rounded-full blur-[120px]"
-        style={{
-          background: 'radial-gradient(circle at center, var(--glow-2), transparent 60%)',
-          animation: 'aurora-drift 28s ease-in-out infinite reverse',
-        }}
-      />
-      <div
-        className="absolute bottom-[-18%] left-[26%] h-[48vmax] w-[48vmax] rounded-full blur-[130px]"
-        style={{
-          background: 'radial-gradient(circle at center, var(--glow-3), transparent 64%)',
-          animation: 'aurora-drift 25s ease-in-out infinite',
-        }}
+        className="absolute bottom-[-18%] right-[-6%] h-[44vmax] w-[44vmax] rounded-full blur-[120px]"
+        style={{ background: 'radial-gradient(circle at center, var(--glow-3), transparent 62%)' }}
       />
     </div>
   );
