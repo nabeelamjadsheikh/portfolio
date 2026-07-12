@@ -2,19 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useLenis } from 'lenis/react';
 import { Download, Menu, X } from 'lucide-react';
 import { nav, profile } from '@/lib/content';
 import { useActiveSection } from '@/hooks/use-active-section';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Magnetic } from '@/components/fx/magnetic';
 import { ease } from '@/lib/motion';
 
 const ids = nav.map((n) => n.id);
 
 export function Nav() {
   const active = useActiveSection(ids);
-  const lenis = useLenis();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -27,10 +24,7 @@ export function Nav() {
 
   const go = (id: string) => {
     setOpen(false);
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (lenis) lenis.scrollTo(el, { offset: -8 });
-    else el.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -88,17 +82,15 @@ export function Nav() {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Magnetic strength={0.25} className="hidden sm:block">
-              <a
-                href={profile.cvPath}
-                download
-                className="group flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-white transition-transform"
-                style={{ background: 'var(--grad)' }}
-              >
-                <Download size={15} />
-                <span>CV</span>
-              </a>
-            </Magnetic>
+            <a
+              href={profile.cvPath}
+              download
+              className="hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 sm:flex"
+              style={{ background: 'var(--grad)' }}
+            >
+              <Download size={15} />
+              <span>CV</span>
+            </a>
             <button
               className="grid h-9 w-9 place-items-center rounded-full border border-[var(--border)] text-ink md:hidden"
               aria-label="Open menu"

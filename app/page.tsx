@@ -1,8 +1,5 @@
 import { AuroraBackground } from '@/components/fx/aurora-background';
 import { GridBackground } from '@/components/fx/grid-background';
-import { Cursor } from '@/components/fx/cursor';
-import { Preloader } from '@/components/fx/preloader';
-import { ScrollProgress } from '@/components/fx/scroll-progress';
 import { Nav } from '@/components/sections/nav';
 import { Hero } from '@/components/sections/hero';
 import { About } from '@/components/sections/about';
@@ -17,11 +14,8 @@ import { Footer } from '@/components/sections/footer';
 export default function Page() {
   return (
     <>
-      <Preloader />
       <AuroraBackground />
       <GridBackground />
-      <Cursor />
-      <ScrollProgress />
       <Nav />
 
       <main>

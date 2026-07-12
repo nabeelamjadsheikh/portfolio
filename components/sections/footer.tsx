@@ -1,15 +1,10 @@
 'use client';
 
-import { useLenis } from 'lenis/react';
 import { ArrowUp } from 'lucide-react';
 import { education, profile } from '@/lib/content';
 
 export function Footer() {
-  const lenis = useLenis();
-  const toTop = () => {
-    if (lenis) lenis.scrollTo(0);
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <footer className="mx-auto w-full max-w-wrap px-5 pb-12 pt-8">

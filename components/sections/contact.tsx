@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, Check, Copy, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import { profile } from '@/lib/content';
 import { Section } from '@/components/sections/section';
-import { Magnetic } from '@/components/fx/magnetic';
 import { RevealText } from '@/components/fx/reveal-text';
 import { fadeUp, inView, stagger } from '@/lib/motion';
 
@@ -80,17 +79,15 @@ export function Contact() {
             where AI, scale, and clean systems meet. The fastest way to reach me is email.
           </p>
 
-          <Magnetic strength={0.25} className="mt-8 inline-block">
-            <a
-              href={`mailto:${profile.email}`}
-              className="flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium text-white"
-              style={{ background: 'var(--grad)' }}
-            >
-              <Mail size={16} />
-              Email me
-              <ArrowUpRight size={16} />
-            </a>
-          </Magnetic>
+          <a
+            href={`mailto:${profile.email}`}
+            className="mt-8 inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            style={{ background: 'var(--grad)' }}
+          >
+            <Mail size={16} />
+            Email me
+            <ArrowUpRight size={16} />
+          </a>
         </div>
 
         <motion.div
